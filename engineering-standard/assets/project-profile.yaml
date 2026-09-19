@@ -1,5 +1,5 @@
 standard:
-  version: "0.1.0"
+  version: "0.2.0"
   strictness: balanced
 project:
   languages: []
@@ -9,10 +9,10 @@ project:
     source_roots: []
     test_roots: []
 quality:
-  formatter: {name: null, command: null}
-  linter: {name: null, command: null}
-  typecheck: {name: null, command: null}
-  test_runner: {name: null, command: null}
+  formatter: []
+  linter: []
+  typecheck: []
+  test_runner: []
 agent:
   target: codex
   instructions: []

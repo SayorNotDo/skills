@@ -9,8 +9,8 @@ Apply the repository's established conventions first, then use this skill to fil
 
 ## Route the task
 
-1. Locate `.engineering/project-profile.yaml` from the repository root.
-2. If it is absent, run `python scripts/scan_project.py <repo> --output <repo>/.engineering/project-profile.yaml`, inspect the result, and adjust uncertain fields from repository evidence. Preserve an existing profile unless the user asks to replace it.
+1. Determine the task mode first. Resolve `<skill-dir>` from this SKILL.md location and `<repo>` from the target repository. All references below are relative to `<skill-dir>`; execute project checks with `<repo>` as working directory. Use Python 3.11+.
+2. Locate `<repo>/.engineering/project-profile.yaml`. If absent, run `python "<skill-dir>/scripts/scan_project.py" "<repo>"` and use its stdout as a provisional profile. In review mode keep it in memory. For an implementation task, persist it only as part of the scoped project setup. Preserve existing profiles. Read `references/project-profile.schema.yaml` when interpreting, creating, or updating a profile; read `references/profile-usage.md` for command selection and version compatibility.
 3. Read `references/core-rules.yaml`. Treat `required` rules as gates; apply `recommended` rules unless repository constraints justify an exception.
 4. Read only the adapters named by `project.languages` and `project.frameworks` in the profile: `references/adapters/python.md`, `typescript.md`, `rust.md`, or `vue.md`.
 5. Read exactly one matching workflow: `references/workflows/feature.md`, `bugfix.md`, `refactor.md`, or `review.md`.
@@ -25,6 +25,6 @@ Repository instructions and user requirements outrank this skill. Resolve a conf
 
 ## Complete the task
 
-Before delivery, account for every applicable Core Rule using implementation evidence, automated checks, or a concise exception. Run the profile's formatter, linter, type checker, and test runner when configured and relevant. Report behavior and boundaries changed, verification outcomes, exceptions or residual risks, and unrelated opportunities left untouched.
+Before delivery, account for every applicable Core Rule using implementation evidence, automated checks, or a concise exception. Inspect every relevant command and its configuration before execution, including package pre/post hooks and delegated scripts. Review mode permits only checks that do not modify tracked source, configuration, snapshots, or external systems; use check-only variants or report that verification was not run. Never run format/write/fix/update commands merely to review. Normal local disposable test/build output is acceptable after checking effects. A null command is unresolved, not a passed or unnecessary check. Report behavior and boundaries changed, verification outcomes, exceptions or residual risks, and unrelated opportunities left untouched.
 
 Completion is observable: requested behavior is present, applicable configured checks pass, and every applicable required rule has evidence or an explicit exception.

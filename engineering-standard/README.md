@@ -32,11 +32,15 @@ python scripts/scan_project.py /path/to/repository
 python scripts/scan_project.py /path/to/repository --output /path/to/repository/.engineering/project-profile.yaml
 ```
 
-The scanner uses only the Python standard library. It preserves an existing output file unless `--force` is supplied. Review generated values because detection is intentionally conservative.
+Run these examples from the skill directory, or use the quoted absolute path to its scanner from another directory. The scanner requires Python 3.11+ and uses only its standard library. It preserves an existing output file unless `--force` is supplied. Invalid or unreadable manifests fail with an error instead of producing an empty profile.
+
+The scanner detects root-level manifests, common JavaScript dependency/configuration evidence, package scripts, Python tool configuration and dependency groups, and Rust tools. It does not execute project code or recursively scan installed dependencies. Monorepo packages require separate scans. Tools detected without a known invocation have a null command; an agent must resolve it from repository evidence. All commands require inspection, particularly during read-only review.
 
 ## Profile lifecycle
 
-The first run creates `.engineering/project-profile.yaml`. Later runs read that profile rather than rescanning. Edit it when the project's tools or architecture change. The schema documents allowed fields and values.
+The default scan writes to stdout only. Implementation work can persist `.engineering/project-profile.yaml` using `--output`; reviews use provisional profiles in memory. Later runs read the profile. Edit it when project tooling or architecture changes. Version 0.2.0 uses tool arrays so multiple stacks retain their checks. See `references/profile-usage.md` for 0.1.0 compatibility and migration.
+
+The Core Rules are original summaries inspired by Steve McConnell's *Code Complete* (complexity, construction, defensive programming, testing) and Robert C. Martin's *Clean Code* (naming, responsibilities, interfaces, errors). They are not quotations or a complete implementation of either book.
 
 ## Verification
 
@@ -47,3 +51,5 @@ python -m unittest discover -s tests -v
 python scripts/scan_project.py .
 python /path/to/skill-creator/scripts/quick_validate.py .
 ```
+
+The scanner tests use the standard library. Optional structural validation uses the development-only packages PyYAML and jsonschema: install them in a development environment, then run `python tests/validate_artifacts.py`. These are not scanner runtime dependencies.

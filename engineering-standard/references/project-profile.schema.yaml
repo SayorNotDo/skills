@@ -9,7 +9,7 @@ properties:
     additionalProperties: false
     required: [version, strictness]
     properties:
-      version: {type: string}
+      version: {const: "0.2.0"}
       strictness: {enum: [strict, balanced, pragmatic]}
   project:
     type: object
@@ -31,10 +31,10 @@ properties:
     additionalProperties: false
     required: [formatter, linter, typecheck, test_runner]
     properties:
-      formatter: {$ref: "#/$defs/tool"}
-      linter: {$ref: "#/$defs/tool"}
-      typecheck: {$ref: "#/$defs/tool"}
-      test_runner: {$ref: "#/$defs/tool"}
+      formatter: {type: array, items: {$ref: "#/$defs/tool"}}
+      linter: {type: array, items: {$ref: "#/$defs/tool"}}
+      typecheck: {type: array, items: {$ref: "#/$defs/tool"}}
+      test_runner: {type: array, items: {$ref: "#/$defs/tool"}}
   agent:
     type: object
     additionalProperties: false
@@ -46,7 +46,9 @@ $defs:
   tool:
     type: object
     additionalProperties: false
-    required: [name, command]
+    required: [name, command, scope, verification]
     properties:
-      name: {type: [string, "null"]}
+      name: {type: string, minLength: 1}
       command: {type: [string, "null"]}
+      scope: {type: string, minLength: 1}
+      verification: {const: inspect}
