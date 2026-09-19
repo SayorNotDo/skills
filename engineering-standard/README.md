@@ -42,6 +42,12 @@ The default scan writes to stdout only. Implementation work can persist `.engine
 
 The Core Rules are original summaries inspired by Steve McConnell's *Code Complete* (complexity, construction, defensive programming, testing) and Robert C. Martin's *Clean Code* (naming, responsibilities, interfaces, errors). They are not quotations or a complete implementation of either book.
 
+## Improve through actual use
+
+When a task exposes a skill-related problem, record scenario, expected behavior, actual behavior, and evidence using `assets/usage-feedback.md`. The agent routes observed failures through `references/continuous-improvement.md`. Project-specific issues belong in project configuration; reusable defects become scanner tests or behavior cases.
+
+See `evals/README.md` for the manual comparison protocol and `evals/cases/review-no-writes.yaml` for a sanitized case derived from the earlier review. The case has not been run as an agent evaluation. Normal use records feedback without automatically changing or publishing the skill. Raw evaluation results stay local and are ignored by Git.
+
 ## Verification
 
 From this directory:
